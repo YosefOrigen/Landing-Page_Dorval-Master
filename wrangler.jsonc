@@ -1,8 +1,8 @@
 {
   "$schema": "https://github.com/cloudflare/workers-sdk/raw/main/packages/wrangler/config-schema.json",
-  "name": "dorval-master-services-group",
+  "name": "landing-page-dorval-master",
   "main": "src/index.js",
-  "compatibility_date": "2026-11-23",
+  "compatibility_date": "2026-11-22",
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
@@ -10,3 +10,4 @@
     "not_found_handling": "404-page"
   }
 }
+

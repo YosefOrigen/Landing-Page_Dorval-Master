@@ -8,7 +8,7 @@ Este repositorio está preparado para el comando de despliegue del registro de C
 
 En **Workers & Pages → tu Worker → Settings → Build**, usa la rama `main`, deja vacío el comando de compilación y configura `npx wrangler deploy` como comando de despliegue. El directorio raíz del repositorio es la raíz del proyecto. Workers Builds instala Wrangler temporalmente si no se declara como dependencia.
 
-El Worker se llama `dorval-master-services-group`. Si ya elegiste otro nombre de Worker en Cloudflare, cambia `name` en `wrangler.jsonc` para que coincida con el proyecto que Cloudflare despliega.
+El Worker se llama `landing-page-dorval-master`, igual que el nombre asignado por Cloudflare Workers Builds. Si ya elegiste otro nombre de Worker en Cloudflare, cambia `name` en `wrangler.jsonc` para que coincida con el proyecto que Cloudflare despliega.
 
 ## Sincronizar solicitudes con Excel
 
@@ -55,3 +55,4 @@ El formulario requiere nombre, WhatsApp y consentimiento. El correo electrónico
 ## Personalización
 
 Los archivos públicos del sitio están en `public/`; el código del Worker está en `src/index.js`. El logo proporcionado está incluido. Antes de publicar, sustituye las imágenes de muestra por recursos autorizados y añade enlaces reales a redes sociales, política de privacidad y términos. Actualiza servicios y proyectos con datos confirmados.
+
