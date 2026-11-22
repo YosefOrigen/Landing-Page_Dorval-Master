@@ -1,0 +1,12 @@
+{
+  "$schema": "https://github.com/cloudflare/workers-sdk/raw/main/packages/wrangler/config-schema.json",
+  "name": "dorval-master-services-group",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-23",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
+    "not_found_handling": "404-page"
+  }
+}

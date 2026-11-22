@@ -1,36 +1,45 @@
 const requiredFields = ['submittedAt', 'name', 'phone', 'propertyType', 'goal', 'zone', 'timing'];
 
+function json(data, status = 200, headers = {}) {
+  return Response.json(data, { status, headers });
+}
+
 function boundedText(value, maxLength = 500) {
   if (typeof value !== 'string') return '';
   const text = value.trim().slice(0, maxLength);
+  // Prevent spreadsheet formula injection from untrusted form submissions.
   return /^[=+\-@]/.test(text) ? `'${text}` : text;
 }
 
-export async function onRequestPost({ request, env }) {
+async function handleLead(request, env) {
+  if (request.method !== 'POST') {
+    return json({ error: 'Method not allowed' }, 405, { Allow: 'POST' });
+  }
+
   const flowUrl = env.POWER_AUTOMATE_URL;
-  if (!flowUrl) return Response.json({ error: 'Lead storage is not configured' }, { status: 503 });
+  if (!flowUrl) return json({ error: 'Lead storage is not configured' }, 503);
 
   let parsed;
   try {
     parsed = await request.json();
   } catch {
-    return Response.json({ error: 'Invalid JSON body' }, { status: 400 });
+    return json({ error: 'Invalid JSON body' }, 400);
   }
   if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-    return Response.json({ error: 'Invalid lead data' }, { status: 400 });
+    return json({ error: 'Invalid lead data' }, 400);
   }
   if (requiredFields.some((field) => typeof parsed[field] !== 'string' || !parsed[field].trim()) || parsed.consent !== true) {
-    return Response.json({ error: 'Required lead fields or consent are missing' }, { status: 400 });
+    return json({ error: 'Required lead fields or consent are missing' }, 400);
   }
 
   let destination;
   try {
     destination = new URL(flowUrl);
   } catch {
-    return Response.json({ error: 'Lead storage endpoint is invalid' }, { status: 500 });
+    return json({ error: 'Lead storage endpoint is invalid' }, 500);
   }
   if (destination.protocol !== 'https:') {
-    return Response.json({ error: 'Lead storage endpoint must use HTTPS' }, { status: 500 });
+    return json({ error: 'Lead storage endpoint must use HTTPS' }, 500);
   }
 
   const lead = {
@@ -55,9 +64,18 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify(lead),
       signal: AbortSignal.timeout(12000),
     });
-    if (!upstream.ok) return Response.json({ error: 'Lead storage rejected the request' }, { status: 502 });
-    return Response.json({ saved: true }, { status: 202 });
+    if (!upstream.ok) return json({ error: 'Lead storage rejected the request' }, 502);
+    return json({ saved: true }, 202);
   } catch {
-    return Response.json({ error: 'Lead storage is temporarily unavailable' }, { status: 502 });
+    return json({ error: 'Lead storage is temporarily unavailable' }, 502);
   }
 }
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === '/api/leads') return handleLead(request, env);
+    if (url.pathname.startsWith('/api/')) return json({ error: 'Not found' }, 404);
+    return env.ASSETS.fetch(request);
+  },
+};

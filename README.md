@@ -1,16 +1,14 @@
 # DORVAL MASTER SERVICES GROUP
 
-Sitio corporativo bilingüe en HTML, CSS y JavaScript. Mantiene el tema claro tanto si el dispositivo usa modo claro como modo oscuro. Usa Inter para el texto y Manrope para títulos, con alternativas de sistema.
+Sitio corporativo bilingüe servido como **Cloudflare Worker con Static Assets**. La interfaz conserva el tema claro con cualquier ajuste de apariencia del dispositivo. Usa Inter para el texto y Manrope para títulos, con alternativas del sistema.
 
-## Despliegue en Cloudflare Pages
+## Despliegue desde GitHub con Workers Builds
 
-1. Conecta el repositorio a Cloudflare Pages.
-2. Configura **Root directory (advanced)** como `outputs/dorval-website`.
-3. Usa `exit 0` como comando de compilación y `.` como directorio de salida. La carpeta `functions/` debe quedar en la raíz del proyecto de Pages junto al `index.html`.
-4. Guarda y despliega. Cloudflare reconocerá `functions/api/leads.js` y lo publicará como la ruta `/api/leads`.
-5. Para pruebas locales puedes servir el proyecto con Wrangler; abrir `index.html` directamente solo muestra el formulario, no activa el endpoint.
+Este repositorio está preparado para el comando de despliegue del registro de Cloudflare (`npx wrangler deploy`). `wrangler.jsonc` define el Worker y sirve los archivos de `public/`; el Worker procesa el formulario en `/api/leads`.
 
-Cloudflare Pages usa una carpeta `functions` en la raíz del proyecto para generar rutas de Pages Functions. [Documentación de enrutamiento](https://developers.cloudflare.com/pages/functions/routing/) y [configuración de compilación](https://developers.cloudflare.com/pages/configuration/build-configuration/).
+En **Workers & Pages → tu Worker → Settings → Build**, usa la rama `main`, deja vacío el comando de compilación y configura `npx wrangler deploy` como comando de despliegue. El directorio raíz del repositorio es la raíz del proyecto. Workers Builds instala Wrangler temporalmente si no se declara como dependencia.
+
+El Worker se llama `dorval-master-services-group`. Si ya elegiste otro nombre de Worker en Cloudflare, cambia `name` en `wrangler.jsonc` para que coincida con el proyecto que Cloudflare despliega.
 
 ## Sincronizar solicitudes con Excel
 
@@ -40,14 +38,14 @@ La plantilla `leads-template.xlsx` contiene la tabla `LeadsTable`. Para activar 
 }
 ```
 
-3. Añade la acción **Excel Online (Business) → Add a row into a table**. Elige el archivo y `LeadsTable`. Mapea: `submittedAt` → Fecha y hora (UTC), `name` → Nombre, `phone` → WhatsApp, `email` → Correo electrónico, `propertyType` → Tipo de propiedad, `goal` → Objetivo, `zone` → Zona / ciudad, `budget` → Presupuesto aproximado, `timing` → Plazo, `consent` → Consentimiento, `language` → Idioma y `source` → Origen. Para Estado comercial pon `Nuevo`; deja Notas internas vacío. [El conector Excel Online (Business) trabaja con libros almacenados en OneDrive para la Empresa y SharePoint](https://learn.microsoft.com/en-us/connectors/excelonlinebusiness/).
-4. Guarda el flujo y copia la URL HTTPS que genera el disparador.
-5. En Cloudflare, abre el proyecto Pages → **Settings → Variables and Secrets**. Crea `POWER_AUTOMATE_URL` como **Secret** en los entornos Production y Preview que uses. No publiques esa URL en el HTML ni en `script.js`. [Cloudflare permite acceder a variables y secretos desde `env` en Pages Functions](https://developers.cloudflare.com/pages/functions/bindings/).
-6. Vuelve a desplegar el sitio. El formulario enviará los datos a `/api/leads`; la función valida el consentimiento y reenvía los datos a Power Automate. Si el guardado falla, la página ofrece WhatsApp como alternativa.
+3. Añade **Excel Online (Business) → Add a row into a table**. Elige el archivo y `LeadsTable`. Mapea `submittedAt` → Fecha y hora (UTC), `name` → Nombre, `phone` → WhatsApp, `email` → Correo electrónico, `propertyType` → Tipo de propiedad, `goal` → Objetivo, `zone` → Zona / ciudad, `budget` → Presupuesto aproximado, `timing` → Plazo, `consent` → Consentimiento, `language` → Idioma y `source` → Origen. Para Estado comercial pon `Nuevo`; deja Notas internas vacío.
+4. Guarda el flujo y copia la URL HTTPS generada por el disparador.
+5. En Cloudflare, abre el Worker → **Settings → Variables and Secrets**. Añade `POWER_AUTOMATE_URL` como **Secret** en el entorno Production (y Preview si se usa). No incluyas esa URL en el código del sitio.
+6. Vuelve a desplegar. Si el flujo está configurado, el formulario enviará los leads a Excel; si falla el guardado, ofrece WhatsApp como alternativa.
 
-El formulario y el endpoint están preparados, pero la sincronización no queda activa hasta crear el flujo y cargar su URL secreta en Cloudflare.
+La conexión con Excel no se activa hasta crear el flujo y configurar el secreto en Cloudflare.
 
-## Contacto configurado
+## Contacto
 
 - WhatsApp: `1809-265-0215`
 - Correo: `Ventasdorvalmaster@gmail.com`
@@ -56,4 +54,4 @@ El formulario requiere nombre, WhatsApp y consentimiento. El correo electrónico
 
 ## Personalización
 
-El logo proporcionado está incluido como `logo-dorval-azul.png`. Antes de publicar, sustituye las imágenes de muestra por recursos autorizados y añade enlaces reales a redes sociales, política de privacidad y términos. Actualiza servicios y proyectos con datos confirmados.
+Los archivos públicos del sitio están en `public/`; el código del Worker está en `src/index.js`. El logo proporcionado está incluido. Antes de publicar, sustituye las imágenes de muestra por recursos autorizados y añade enlaces reales a redes sociales, política de privacidad y términos. Actualiza servicios y proyectos con datos confirmados.
