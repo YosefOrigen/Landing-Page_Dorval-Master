@@ -7,7 +7,6 @@ function json(data, status = 200, headers = {}) {
 function boundedText(value, maxLength = 500) {
   if (typeof value !== 'string') return '';
   const text = value.trim().slice(0, maxLength);
-  // Prevent spreadsheet formula injection from untrusted form submissions.
   return /^[=+\-@]/.test(text) ? `'${text}` : text;
 }
 
@@ -16,8 +15,11 @@ async function handleLead(request, env) {
     return json({ error: 'Method not allowed' }, 405, { Allow: 'POST' });
   }
 
-  const flowUrl = env.POWER_AUTOMATE_URL;
-  if (!flowUrl) return json({ error: 'Lead storage is not configured' }, 503);
+  const webAppUrl = env.GOOGLE_SHEETS_WEB_APP_URL;
+  const webhookToken = env.GOOGLE_SHEETS_WEBHOOK_TOKEN;
+  if (!webAppUrl || !webhookToken) {
+    return json({ error: 'Google Sheets storage is not configured' }, 503);
+  }
 
   let parsed;
   try {
@@ -34,12 +36,12 @@ async function handleLead(request, env) {
 
   let destination;
   try {
-    destination = new URL(flowUrl);
+    destination = new URL(webAppUrl);
   } catch {
-    return json({ error: 'Lead storage endpoint is invalid' }, 500);
+    return json({ error: 'Google Sheets endpoint is invalid' }, 500);
   }
-  if (destination.protocol !== 'https:') {
-    return json({ error: 'Lead storage endpoint must use HTTPS' }, 500);
+  if (destination.protocol !== 'https:' || destination.hostname !== 'script.google.com' || !destination.pathname.startsWith('/macros/s/') || !destination.pathname.endsWith('/exec')) {
+    return json({ error: 'Google Sheets endpoint must be a Google Apps Script web app URL' }, 500);
   }
 
   const lead = {
@@ -61,13 +63,21 @@ async function handleLead(request, env) {
     const upstream = await fetch(destination, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(lead),
-      signal: AbortSignal.timeout(12000),
+      body: JSON.stringify({ ...lead, token: webhookToken }),
+      signal: AbortSignal.timeout(15000),
     });
-    if (!upstream.ok) return json({ error: 'Lead storage rejected the request' }, 502);
+    let result;
+    try {
+      result = await upstream.json();
+    } catch {
+      return json({ error: 'Google Sheets returned an invalid response' }, 502);
+    }
+    if (!upstream.ok || result?.ok !== true) {
+      return json({ error: 'Google Sheets rejected the request' }, 502);
+    }
     return json({ saved: true }, 202);
   } catch {
-    return json({ error: 'Lead storage is temporarily unavailable' }, 502);
+    return json({ error: 'Google Sheets is temporarily unavailable' }, 502);
   }
 }
 

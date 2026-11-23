@@ -1,58 +1,49 @@
 # DORVAL MASTER SERVICES GROUP
 
-Sitio corporativo bilingüe servido como **Cloudflare Worker con Static Assets**. La interfaz conserva el tema claro con cualquier ajuste de apariencia del dispositivo. Usa Inter para el texto y Manrope para títulos, con alternativas del sistema.
+Sitio corporativo bilingüe servido como **Cloudflare Worker con Static Assets**. La interfaz mantiene el tema claro y usa Inter y Manrope con alternativas del sistema.
 
-## Despliegue desde GitHub con Workers Builds
+## Despliegue en Cloudflare Workers
 
-Este repositorio está preparado para el comando de despliegue del registro de Cloudflare (`npx wrangler deploy`). `wrangler.jsonc` define el Worker y sirve los archivos de `public/`; el Worker procesa el formulario en `/api/leads`.
+El repositorio está preparado para Workers Builds y el comando `npx wrangler deploy`. La configuración de `wrangler.jsonc` publica los archivos de `public/` y ejecuta el Worker de `src/index.js` para la API del formulario.
 
-En **Workers & Pages → tu Worker → Settings → Build**, usa la rama `main`, deja vacío el comando de compilación y configura `npx wrangler deploy` como comando de despliegue. El directorio raíz del repositorio es la raíz del proyecto. Workers Builds instala Wrangler temporalmente si no se declara como dependencia.
+En **Workers & Pages → landing-page-dorval-master → Settings → Build**, usa la rama `main`, deja vacío el comando de compilación y configura `npx wrangler deploy` como comando de despliegue. La raíz del repositorio es la raíz del proyecto.
 
-El Worker se llama `landing-page-dorval-master`, igual que el nombre asignado por Cloudflare Workers Builds. Si ya elegiste otro nombre de Worker en Cloudflare, cambia `name` en `wrangler.jsonc` para que coincida con el proyecto que Cloudflare despliega.
+## Guardar leads en Google Sheets
 
-## Sincronizar solicitudes con Excel
+La hoja y el Apps Script deben pertenecer a la cuenta de Google Workspace del cliente. De este modo, los datos y la automatización quedan bajo el control del cliente. El Worker de Cloudflare actúa como puente: valida la solicitud y envía los datos al Apps Script usando secretos que no se exponen en el navegador.
 
-La plantilla `leads-template.xlsx` contiene la tabla `LeadsTable`. Para activar el registro automático:
+### 1. Crear la hoja
 
-1. Sube la plantilla a OneDrive para la Empresa o SharePoint.
-2. En Power Automate, crea un flujo con el disparador **When an HTTP request is received** y pega este esquema:
+Desde la cuenta empresarial del cliente, crea un Google Sheet para los leads. Copia el ID de la hoja, que aparece entre `/d/` y `/edit` en su dirección. El script creará la pestaña `Leads` y sus encabezados al ejecutar la configuración inicial.
 
-```json
-{
-  "type": "object",
-  "properties": {
-    "submittedAt": { "type": "string" },
-    "name": { "type": "string" },
-    "phone": { "type": "string" },
-    "email": { "type": "string" },
-    "propertyType": { "type": "string" },
-    "goal": { "type": "string" },
-    "zone": { "type": "string" },
-    "budget": { "type": "string" },
-    "timing": { "type": "string" },
-    "consent": { "type": "boolean" },
-    "language": { "type": "string" },
-    "source": { "type": "string" }
-  },
-  "required": ["submittedAt", "name", "phone", "propertyType", "goal", "zone", "timing", "consent"]
-}
-```
+### 2. Crear y configurar Apps Script
 
-3. Añade **Excel Online (Business) → Add a row into a table**. Elige el archivo y `LeadsTable`. Mapea `submittedAt` → Fecha y hora (UTC), `name` → Nombre, `phone` → WhatsApp, `email` → Correo electrónico, `propertyType` → Tipo de propiedad, `goal` → Objetivo, `zone` → Zona / ciudad, `budget` → Presupuesto aproximado, `timing` → Plazo, `consent` → Consentimiento, `language` → Idioma y `source` → Origen. Para Estado comercial pon `Nuevo`; deja Notas internas vacío.
-4. Guarda el flujo y copia la URL HTTPS generada por el disparador.
-5. En Cloudflare, abre el Worker → **Settings → Variables and Secrets**. Añade `POWER_AUTOMATE_URL` como **Secret** en el entorno Production (y Preview si se usa). No incluyas esa URL en el código del sitio.
-6. Vuelve a desplegar. Si el flujo está configurado, el formulario enviará los leads a Excel; si falla el guardado, ofrece WhatsApp como alternativa.
+1. Ve a [script.google.com](https://script.google.com/) con la cuenta del cliente y crea un proyecto.
+2. Copia el contenido de `google-apps-script/Code.gs` al editor.
+3. En **Project Settings → Script properties**, añade:
+   - `SPREADSHEET_ID`: el ID de la hoja de Google.
+   - `WEBHOOK_TOKEN`: un secreto aleatorio largo (al menos 32 caracteres). Créalo con un gestor de contraseñas y no lo guardes en Git ni lo compartas por el chat.
+4. Ejecuta `setup` una vez desde el editor y concede el acceso solicitado. Esto crea la pestaña `Leads` con columnas para fecha, contacto, búsqueda, consentimiento, idioma, estado y notas.
+5. Selecciona **Deploy → New deployment → Web app**. Configura **Execute as: Me** y **Who has access: Anyone**, y despliega. Copia la URL que termina en `/exec`.
 
-La conexión con Excel no se activa hasta crear el flujo y configurar el secreto en Cloudflare.
+El endpoint web debe aceptar solicitudes anónimas porque el Worker de Cloudflare no inicia sesión en Google. El script valida un token secreto guardado en las propiedades del proyecto. Si la política de Google Workspace del cliente no permite el acceso `Anyone`, no continúes con este método: hará falta que el administrador habilite el acceso o usar una integración con autenticación de Google. El endpoint es públicamente accesible, pero el script exige el token secreto en cada solicitud.
 
-## Contacto
+### 3. Guardar los secretos en Cloudflare
+
+En Cloudflare abre el Worker `landing-page-dorval-master` → **Settings → Variables and Secrets**. Añade estos dos secretos en Production. Si existe una variable antigua `POWER_AUTOMATE_URL`, elimínala: la web ya no la utiliza.
+
+- `GOOGLE_SHEETS_WEB_APP_URL`: URL `/exec` de la aplicación web de Apps Script.
+- `GOOGLE_SHEETS_WEBHOOK_TOKEN`: el mismo valor que guardaste como `WEBHOOK_TOKEN` en Apps Script.
+
+No pongas estos valores en `public/script.js`, HTML ni en el repositorio. Vuelve a desplegar el Worker después de añadirlos. Cuando la integración esté activa, el formulario mostrará confirmación y cada solicitud se añadirá a `Leads`.
+
+## Contacto configurado
 
 - WhatsApp: `1809-265-0215`
 - Correo: `Ventasdorvalmaster@gmail.com`
 
-El formulario requiere nombre, WhatsApp y consentimiento. El correo electrónico es opcional.
+El formulario requiere nombre, WhatsApp y consentimiento. El correo electrónico es opcional. Si el guardado falla, ofrece enviar la solicitud por WhatsApp.
 
 ## Personalización
 
-Los archivos públicos del sitio están en `public/`; el código del Worker está en `src/index.js`. El logo proporcionado está incluido. Antes de publicar, sustituye las imágenes de muestra por recursos autorizados y añade enlaces reales a redes sociales, política de privacidad y términos. Actualiza servicios y proyectos con datos confirmados.
-
+Los archivos del sitio están en `public/` y el Worker en `src/index.js`. El código para Apps Script está en `google-apps-script/Code.gs`. Sustituye las imágenes de muestra por recursos autorizados y actualiza servicios, proyectos, políticas y redes sociales con datos confirmados.

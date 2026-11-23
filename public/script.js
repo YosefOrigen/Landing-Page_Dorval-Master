@@ -1,7 +1,7 @@
 // Personaliza los datos verificados antes de publicar.
 const SITE_CONFIG = {
   whatsappNumber: '18092650215',
-  // La API debe guardar la solicitud en el Excel mediante Power Automate.
+  // La API envía la solicitud a Google Sheets a través del Worker.
   leadEndpoint: '/api/leads',
 };
 
@@ -151,8 +151,8 @@ propertyForm.addEventListener('submit', async (event) => {
     formStatus.dataset.es = 'Tu solicitud se guardó correctamente. El equipo podrá contactarte pronto.';
     formStatus.dataset.en = 'Your request was saved successfully. The team can now follow up with you.';
   } catch {
-    formStatus.dataset.es = 'No pudimos guardar la solicitud en Excel. Puedes enviárnosla por WhatsApp.';
-    formStatus.dataset.en = 'We could not save your request to Excel. You can send it to us on WhatsApp.';
+    formStatus.dataset.es = 'No pudimos guardar la solicitud en Google Sheets. Puedes enviárnosla por WhatsApp.';
+    formStatus.dataset.en = 'We could not save your request to Google Sheets. You can send it to us on WhatsApp.';
     const summary = Object.entries({ Nombre: lead.name, WhatsApp: lead.phone, Correo: lead.email, Propiedad: lead.propertyType, Objetivo: lead.goal, Zona: lead.zone, Presupuesto: lead.budget, Plazo: lead.timing }).map(([label, value]) => `${label}: ${value || 'Sin especificar'}`).join('\n');
     formWhatsappFallback.href = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(summary)}`;
   }
