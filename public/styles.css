@@ -10,3 +10,33 @@ body{font-family:'Inter',Arial,sans-serif;font-size:16px;line-height:1.6}.nav{fo
 @media(max-width:650px){.hero-intro{font-size:16px}.nav{font-size:13px}.choice-list label span,.quick-choices button{font-size:13px}}
 :root{color-scheme:light}body,.property-dialog{background:#fff;color-scheme:light}.area-icon svg{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.contact-details{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:17px}.contact-details a{display:inline-flex;align-items:center;gap:8px;color:#e6f2ff;font-size:13px}.contact-details svg,.footer-main>div>a.footer-contact svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.button-whatsapp .wa-icon{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.footer-main>div>a.footer-contact{display:flex;align-items:center;gap:8px;margin-bottom:13px;color:#d2e1f1;font-size:12px}.social-placeholders span{width:30px;height:30px;border:1px solid #557494;border-radius:50%;display:grid;place-items:center;color:#fff}.social-placeholders svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.social-placeholders svg .icon-fill{fill:currentColor;stroke:none}.consent-check{display:flex;align-items:flex-start;gap:9px;margin:16px 0 0;color:#49637e;font-size:12px;line-height:1.5;cursor:pointer}.consent-check input{width:16px;height:16px;flex:none;margin:1px 0 0;accent-color:var(--blue)}.privacy-note svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.form-whatsapp-fallback{display:inline-flex;margin-top:13px;color:var(--blue);font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px}.form-submit:disabled{opacity:.65;cursor:wait}.footer-main>div>a.footer-contact:hover,.contact-details a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:650px){.contact-details{flex-direction:column;gap:8px}.contact-details a{font-size:12px}}
+
+/* Company profile: mission, vision, values and detailed service summaries. */
+.area-card{align-items:stretch}
+.area-info{padding:25px 21px}
+.area-info .service-list{list-style:none;padding:0;margin:15px 0 0;display:grid;gap:13px;width:100%}
+.service-list li{display:grid;gap:2px;padding-left:13px;position:relative}
+.service-list li:before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.service-list strong{font-size:12px;line-height:1.45;color:var(--navy)}
+.service-list li span{font-size:11px;line-height:1.5;color:#526b87}
+.area-info .text-link{margin-top:auto;padding-top:18px}
+.purpose{padding-top:72px;padding-bottom:76px}
+.purpose-heading{text-align:center;max-width:760px;margin:0 auto 28px}
+.purpose-heading .eyebrow{margin-bottom:8px}
+.purpose-heading h2{font-family:Manrope,sans-serif;font-size:clamp(30px,3.5vw,42px);line-height:1.16;letter-spacing:-1.1px;color:var(--navy);margin:0}
+.purpose-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.purpose-card{padding:30px;border-radius:10px;background:#f3f8fd;border:1px solid #e2edf7}
+.purpose-card .eyebrow{margin-bottom:8px}
+.purpose-card h3{font-family:Manrope,sans-serif;font-size:23px;line-height:1.25;letter-spacing:-.5px;color:var(--navy);margin:0 0 10px}
+.purpose-card>p:last-child{font-size:14px;line-height:1.7;color:#455f7c;margin:0}
+.values-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin:48px 0 18px}
+.values-heading .eyebrow{margin-bottom:5px}
+.values-heading h3{font-family:Manrope,sans-serif;font-size:30px;letter-spacing:-.8px;color:var(--navy);margin:0}
+.values-heading>p{max-width:410px;color:var(--muted);font-size:13px;line-height:1.6;margin:0}
+.values-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.value-card{padding:19px 16px 20px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 30px #092b500a}
+.value-card>span{font:700 11px Manrope,sans-serif;color:var(--blue);letter-spacing:1px}
+.value-card h4{font:700 14px/1.35 Manrope,sans-serif;color:var(--navy);margin:12px 0 7px}
+.value-card p{font-size:12px;line-height:1.55;color:#526b87;margin:0}
+@media(max-width:1000px){.values-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.area-info{padding:22px 18px}}
+@media(max-width:650px){.purpose{padding-top:50px;padding-bottom:54px}.purpose-grid{grid-template-columns:1fr;gap:12px}.purpose-card{padding:23px}.values-heading{align-items:flex-start;flex-direction:column;gap:8px;margin:34px 0 16px}.values-heading h3{font-size:27px}.values-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.value-card{padding:16px 13px}.value-card:last-child{grid-column:1/-1}.service-list{gap:10px!important}.service-list strong{font-size:11px}.service-list li span{font-size:10px}.area-info{padding:18px 14px}.area-info h2{font-size:19px}}
