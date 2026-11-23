@@ -1,8 +1,6 @@
-// Personaliza los datos verificados antes de publicar.
+// Contacto verificado de DORVAL.
 const SITE_CONFIG = {
   whatsappNumber: '18092650215',
-  // La API envía la solicitud a Google Sheets a través del Worker.
-  leadEndpoint: '/api/leads',
 };
 
 const languageButton = document.querySelector('.language');
@@ -118,13 +116,12 @@ document.querySelectorAll('[data-zone]').forEach((button) => button.addEventList
 document.querySelector('#property-zone').addEventListener('input', () => {
   document.querySelectorAll('[data-zone]').forEach((choice) => choice.classList.remove('selected'));
 });
-propertyForm.addEventListener('submit', async (event) => {
+propertyForm.addEventListener('submit', (event) => {
   event.preventDefault();
   if (activeStep !== 5 || !validCurrentStep()) return;
   const answers = new FormData(propertyForm);
   const selected = (name) => propertyForm.querySelector(`input[name="${name}"]:checked`)?.nextElementSibling?.textContent.trim() || '';
   const lead = {
-    submittedAt: new Date().toISOString(),
     name: answers.get('name')?.toString().trim(),
     phone: answers.get('phone')?.toString().trim(),
     email: answers.get('email')?.toString().trim() || '',
@@ -133,32 +130,32 @@ propertyForm.addEventListener('submit', async (event) => {
     zone: answers.get('zone')?.toString().trim(),
     budget: answers.get('budget')?.toString().trim() || '',
     timing: selected('timing'),
-    consent: answers.get('consent') === 'yes',
-    language: currentLanguage,
-    source: 'Web',
   };
-  submitButton.disabled = true;
-  submitButton.querySelector('span').textContent = currentLanguage === 'es' ? 'Enviando…' : 'Sending…';
-  let sent = false;
-  try {
-    const response = await fetch(SITE_CONFIG.leadEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(lead),
-    });
-    if (!response.ok) throw new Error('Lead endpoint returned an error');
-    sent = true;
-    formStatus.dataset.es = 'Tu solicitud se guardó correctamente. El equipo podrá contactarte pronto.';
-    formStatus.dataset.en = 'Your request was saved successfully. The team can now follow up with you.';
-  } catch {
-    formStatus.dataset.es = 'No pudimos guardar la solicitud en Google Sheets. Puedes enviárnosla por WhatsApp.';
-    formStatus.dataset.en = 'We could not save your request to Google Sheets. You can send it to us on WhatsApp.';
-    const summary = Object.entries({ Nombre: lead.name, WhatsApp: lead.phone, Correo: lead.email, Propiedad: lead.propertyType, Objetivo: lead.goal, Zona: lead.zone, Presupuesto: lead.budget, Plazo: lead.timing }).map(([label, value]) => `${label}: ${value || 'Sin especificar'}`).join('\n');
-    formWhatsappFallback.href = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(summary)}`;
+  const summary = Object.entries({
+    Nombre: lead.name,
+    WhatsApp: lead.phone,
+    Correo: lead.email,
+    Propiedad: lead.propertyType,
+    Objetivo: lead.goal,
+    Zona: lead.zone,
+    Presupuesto: lead.budget,
+    Plazo: lead.timing,
+  }).map(([label, value]) => `${label}: ${value || 'Sin especificar'}`).join('\n');
+  const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(summary)}`;
+  formWhatsappFallback.href = whatsappUrl;
+
+  const whatsappWindow = window.open(whatsappUrl, '_blank');
+  if (whatsappWindow) {
+    whatsappWindow.opener = null;
+    formWhatsappFallback.hidden = true;
+  } else {
+    formWhatsappFallback.hidden = false;
   }
-  formWhatsappFallback.hidden = sent;
+
+  formStatus.dataset.es = 'WhatsApp se abrió con tu solicitud preparada. Revisa el mensaje y pulsa Enviar para compartirlo con DORVAL.';
+  formStatus.dataset.en = 'WhatsApp opened with your request ready. Review the message and press Send to share it with DORVAL.';
   submitButton.disabled = false;
-  submitButton.querySelector('span').textContent = currentLanguage === 'es' ? 'Mostrarme opciones' : 'Show me options';
+  submitButton.querySelector('span').textContent = currentLanguage === 'es' ? 'Enviar por WhatsApp' : 'Send via WhatsApp';
   setLanguage(currentLanguage);
   activeStep = 6;
   renderFormStep();
