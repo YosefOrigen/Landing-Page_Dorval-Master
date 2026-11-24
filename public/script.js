@@ -5,6 +5,64 @@ const SITE_CONFIG = {
 
 const languageButton = document.querySelector('.language');
 let currentLanguage = 'es';
+const photoDialog = document.querySelector('.property-lightbox');
+const photoControls = [...document.querySelectorAll('.property-gallery [data-photo-index]')];
+const lightboxImage = document.querySelector('.lightbox-image');
+const lightboxDescription = document.querySelector('.lightbox-description');
+const lightboxCount = document.querySelector('.lightbox-count');
+let activePhotoIndex = 0;
+function showPropertyPhoto(index) {
+  activePhotoIndex = (index + photoControls.length) % photoControls.length;
+  const control = photoControls[activePhotoIndex];
+  const photo = control.querySelector('img');
+  lightboxImage.src = photo.src;
+  lightboxImage.alt = control.dataset[`caption${currentLanguage[0].toUpperCase()}${currentLanguage.slice(1)}`];
+  lightboxDescription.textContent = lightboxImage.alt;
+  lightboxCount.textContent = currentLanguage === 'es'
+    ? `Foto ${activePhotoIndex + 1} de ${photoControls.length}`
+    : `Photo ${activePhotoIndex + 1} of ${photoControls.length}`;
+}
+photoControls.forEach((control) => control.addEventListener('click', () => {
+  showPropertyPhoto(Number(control.dataset.photoIndex));
+  photoDialog.showModal();
+}));
+document.querySelector('.lightbox-close').addEventListener('click', () => photoDialog.close());
+document.querySelector('.lightbox-prev').addEventListener('click', () => showPropertyPhoto(activePhotoIndex - 1));
+document.querySelector('.lightbox-next').addEventListener('click', () => showPropertyPhoto(activePhotoIndex + 1));
+photoDialog.addEventListener('click', (event) => {
+  if (event.target === photoDialog) photoDialog.close();
+});
+photoDialog.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowLeft') showPropertyPhoto(activePhotoIndex - 1);
+  if (event.key === 'ArrowRight') showPropertyPhoto(activePhotoIndex + 1);
+});
+function syncServiceMoreButtons() {
+  document.querySelectorAll('.service-list').forEach((list) => {
+    const toggle = list.nextElementSibling;
+    if (!toggle?.classList.contains('service-more-toggle')) return;
+    const wasExpanded = !list.classList.contains('is-collapsed');
+    list.classList.add('is-collapsed');
+    const hasOverflow = list.scrollHeight > list.clientHeight + 1;
+    if (wasExpanded && hasOverflow) list.classList.remove('is-collapsed');
+    const isExpanded = wasExpanded && hasOverflow;
+    toggle.hidden = !hasOverflow;
+    toggle.setAttribute('aria-expanded', String(isExpanded));
+    toggle.textContent = isExpanded
+      ? (currentLanguage === 'es' ? 'Leer menos' : 'Read less')
+      : (currentLanguage === 'es' ? 'Leer más' : 'Read more');
+  });
+}
+document.querySelectorAll('.service-more-toggle').forEach((toggle) => {
+  toggle.addEventListener('click', () => {
+    const list = toggle.previousElementSibling;
+    const isExpanded = list.classList.toggle('is-collapsed') === false;
+    toggle.setAttribute('aria-expanded', String(isExpanded));
+    toggle.textContent = isExpanded
+      ? (currentLanguage === 'es' ? 'Leer menos' : 'Read less')
+      : (currentLanguage === 'es' ? 'Leer más' : 'Read more');
+  });
+});
+window.addEventListener('resize', syncServiceMoreButtons);
 function setLanguage(language) {
   currentLanguage = language;
   document.documentElement.lang = language;
@@ -20,6 +78,20 @@ function setLanguage(language) {
     span.classList.toggle('active', span.textContent.toLowerCase() === language);
   });
   languageButton.setAttribute('aria-label', language === 'es' ? 'Switch language to English' : 'Cambiar idioma a español');
+  syncServiceMoreButtons();
+  photoControls.forEach((control) => {
+    control.setAttribute('aria-label', control.dataset[`label${language[0].toUpperCase()}${language.slice(1)}`]);
+  });
+  photoDialog.setAttribute('aria-label', photoDialog.dataset[`label${language[0].toUpperCase()}${language.slice(1)}`]);
+  photoDialog.querySelectorAll('[data-label-es][data-label-en]').forEach((control) => {
+    control.setAttribute('aria-label', control.dataset[`label${language[0].toUpperCase()}${language.slice(1)}`]);
+  });
+  if (photoDialog.open) showPropertyPhoto(activePhotoIndex);
+  const propertyWhatsAppLink = document.querySelector('[data-whatsapp-property]');
+  if (propertyWhatsAppLink) {
+    const message = propertyWhatsAppLink.dataset[`message${language[0].toUpperCase()}${language.slice(1)}`];
+    propertyWhatsAppLink.href = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  }
 }
 languageButton.addEventListener('click', () => setLanguage(currentLanguage === 'es' ? 'en' : 'es'));
 
