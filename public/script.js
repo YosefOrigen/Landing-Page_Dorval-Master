@@ -5,6 +5,8 @@ const SITE_CONFIG = {
 
 const languageButton = document.querySelector('.language');
 let currentLanguage = 'es';
+const menuToggle = document.querySelector('.menu-toggle');
+const nav = document.querySelector('.nav');
 const photoDialog = document.querySelector('.property-lightbox');
 const photoControls = [...document.querySelectorAll('.property-gallery [data-photo-index]')];
 const lightboxImage = document.querySelector('.lightbox-image');
@@ -40,13 +42,14 @@ function syncServiceMoreButtons() {
   document.querySelectorAll('.service-list').forEach((list) => {
     const toggle = list.nextElementSibling;
     if (!toggle?.classList.contains('service-more-toggle')) return;
-    const wasExpanded = !list.classList.contains('is-collapsed');
+    const wasExpanded = toggle.getAttribute('aria-expanded') === 'true';
     list.classList.add('is-collapsed');
     const hasOverflow = list.scrollHeight > list.clientHeight + 1;
     if (wasExpanded && hasOverflow) list.classList.remove('is-collapsed');
     const isExpanded = wasExpanded && hasOverflow;
     toggle.hidden = !hasOverflow;
     toggle.setAttribute('aria-expanded', String(isExpanded));
+    list.setAttribute('aria-hidden', String(hasOverflow && !isExpanded));
     toggle.textContent = isExpanded
       ? (currentLanguage === 'es' ? 'Leer menos' : 'Read less')
       : (currentLanguage === 'es' ? 'Leer más' : 'Read more');
@@ -57,6 +60,7 @@ document.querySelectorAll('.service-more-toggle').forEach((toggle) => {
     const list = toggle.previousElementSibling;
     const isExpanded = list.classList.toggle('is-collapsed') === false;
     toggle.setAttribute('aria-expanded', String(isExpanded));
+    list.setAttribute('aria-hidden', String(!isExpanded));
     toggle.textContent = isExpanded
       ? (currentLanguage === 'es' ? 'Leer menos' : 'Read less')
       : (currentLanguage === 'es' ? 'Leer más' : 'Read more');
@@ -66,6 +70,7 @@ window.addEventListener('resize', syncServiceMoreButtons);
 function setLanguage(language) {
   currentLanguage = language;
   document.documentElement.lang = language;
+  nav.setAttribute('aria-label', language === 'es' ? 'Navegación principal' : 'Main navigation');
   document.querySelectorAll('[data-es][data-en]').forEach((element) => {
     element.innerHTML = element.dataset[language];
   });
@@ -76,6 +81,14 @@ function setLanguage(language) {
   if (aboutVisual) aboutVisual.setAttribute('aria-label', aboutVisual.dataset[language === 'es' ? 'labelEs' : 'labelEn']);
   const closeButton = document.querySelector('.dialog-close');
   if (closeButton) closeButton.setAttribute('aria-label', language === 'es' ? 'Cerrar formulario' : 'Close form');
+  const formProgress = document.querySelector('.form-progress');
+  if (formProgress) formProgress.setAttribute('aria-label', language === 'es' ? 'Progreso del formulario' : 'Form progress');
+  const menuToggle = document.querySelector('.menu-toggle');
+  if (menuToggle) {
+    menuToggle.setAttribute('aria-label', nav.classList.contains('open')
+      ? (language === 'es' ? 'Cerrar menú' : 'Close menu')
+      : (language === 'es' ? 'Abrir menú' : 'Open menu'));
+  }
   languageButton.querySelectorAll('span').forEach((span) => {
     span.classList.toggle('active', span.textContent.toLowerCase() === language);
   });
@@ -97,16 +110,36 @@ function setLanguage(language) {
 }
 languageButton.addEventListener('click', () => setLanguage(currentLanguage === 'es' ? 'en' : 'es'));
 
-const menuToggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('.nav');
+function closeNavigationMenu(restoreFocus) {
+  nav.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.setAttribute('aria-label', currentLanguage === 'es' ? 'Abrir menú' : 'Open menu');
+  if (restoreFocus) menuToggle.focus();
+}
 menuToggle.addEventListener('click', () => {
   const open = nav.classList.toggle('open');
   menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', open
+    ? (currentLanguage === 'es' ? 'Cerrar menú' : 'Close menu')
+    : (currentLanguage === 'es' ? 'Abrir menú' : 'Open menu'));
 });
 nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-  nav.classList.remove('open');
-  menuToggle.setAttribute('aria-expanded', 'false');
+  closeNavigationMenu(false);
 }));
+document.addEventListener('click', (event) => {
+  if (nav.classList.contains('open') && !nav.contains(event.target) && !menuToggle.contains(event.target)) {
+    closeNavigationMenu(false);
+  }
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && nav.classList.contains('open')) closeNavigationMenu(true);
+});
+const desktopNavigation = window.matchMedia('(min-width: 651px)');
+const closeMenuOnDesktop = (event) => {
+  if (event.matches) closeNavigationMenu(false);
+};
+if (desktopNavigation.addEventListener) desktopNavigation.addEventListener('change', closeMenuOnDesktop);
+else desktopNavigation.addListener(closeMenuOnDesktop);
 
 const whatsappLink = document.querySelector('[data-whatsapp]');
 if (SITE_CONFIG.whatsappNumber) whatsappLink.href = `https://wa.me/${SITE_CONFIG.whatsappNumber}`;
@@ -125,25 +158,43 @@ const errorMessage = document.querySelector('.form-error');
 const formStatus = document.querySelector('[data-form-status]');
 const formWhatsappFallback = document.querySelector('.form-whatsapp-fallback');
 let activeStep = 0;
+formStatus.setAttribute('role', 'status');
+formStatus.setAttribute('aria-live', 'polite');
+const formProgress = document.querySelector('.form-progress');
+formProgress.setAttribute('role', 'progressbar');
+formProgress.setAttribute('aria-label', currentLanguage === 'es' ? 'Progreso del formulario' : 'Form progress');
+formProgress.setAttribute('aria-valuemin', '0');
+formProgress.setAttribute('aria-valuemax', '100');
 
 function renderFormStep() {
   formSteps.forEach((step, index) => { step.hidden = index !== activeStep; });
-  progressBar.style.width = `${Math.min(activeStep, 5) * 20}%`;
+  const progress = Math.min(activeStep, 5) * 20;
+  progressBar.style.width = `${progress}%`;
+  progressBar.parentElement.setAttribute('aria-valuenow', String(progress));
   backButton.hidden = activeStep === 0 || activeStep >= 6;
   nextButton.hidden = activeStep >= 5;
   submitButton.hidden = activeStep !== 5;
   doneButton.hidden = activeStep !== 6;
   errorMessage.hidden = true;
   const title = formSteps[activeStep].querySelector('h2');
-  if (title) title.focus?.({ preventScroll: true });
+  if (title) {
+    title.setAttribute('tabindex', '-1');
+    title.focus({ preventScroll: true });
+  }
 }
 
 function validCurrentStep() {
+  let invalidControl;
   if (activeStep === 0 || activeStep === 1 || activeStep === 4) {
-    const radio = propertyForm.querySelector(`input[name="${['property', 'goal', '', '', 'timing'][activeStep]}"]:checked`);
+    const fieldName = ['property', 'goal', '', '', 'timing'][activeStep];
+    const radio = propertyForm.querySelector(`input[name="${fieldName}"]:checked`);
     if (radio) return true;
+    invalidControl = propertyForm.querySelector(`input[name="${fieldName}"]`);
   }
-  if (activeStep === 2 && propertyForm.elements.zone.value.trim()) return true;
+  if (activeStep === 2) {
+    if (propertyForm.elements.zone.value.trim()) return true;
+    invalidControl = propertyForm.elements.zone;
+  }
   if (activeStep === 3) return true;
   if (activeStep === 5) {
     const fields = [...propertyForm.querySelectorAll('[data-step="5"] input')];
@@ -155,13 +206,14 @@ function validCurrentStep() {
   }
   errorMessage.textContent = currentLanguage === 'es' ? 'Elige una opción o completa este campo para continuar.' : 'Choose an option or complete this field to continue.';
   errorMessage.hidden = false;
+  invalidControl?.focus();
   return false;
 }
 
 document.querySelector('[data-open-property-form]').addEventListener('click', () => {
   activeStep = 0;
-  renderFormStep();
   propertyDialog.showModal();
+  renderFormStep();
 });
 document.querySelector('.dialog-close').addEventListener('click', () => propertyDialog.close());
 doneButton.addEventListener('click', () => propertyDialog.close());
@@ -170,6 +222,10 @@ propertyDialog.addEventListener('click', (event) => {
 });
 propertyDialog.addEventListener('close', () => {
   propertyForm.reset();
+  document.querySelectorAll('[data-zone]').forEach((choice) => {
+    choice.classList.remove('selected');
+    choice.setAttribute('aria-pressed', 'false');
+  });
   formWhatsappFallback.hidden = true;
   activeStep = 0;
   renderFormStep();
@@ -183,12 +239,22 @@ backButton.addEventListener('click', () => {
   activeStep = Math.max(0, activeStep - 1);
   renderFormStep();
 });
-document.querySelectorAll('[data-zone]').forEach((button) => button.addEventListener('click', () => {
+document.querySelectorAll('[data-zone]').forEach((button) => {
+  button.setAttribute('aria-pressed', 'false');
+  button.addEventListener('click', () => {
   propertyForm.elements.zone.value = button.dataset.zone;
-  document.querySelectorAll('[data-zone]').forEach((choice) => choice.classList.toggle('selected', choice === button));
-}));
+  document.querySelectorAll('[data-zone]').forEach((choice) => {
+    const selected = choice === button;
+    choice.classList.toggle('selected', selected);
+    choice.setAttribute('aria-pressed', String(selected));
+  });
+  });
+});
 document.querySelector('#property-zone').addEventListener('input', () => {
-  document.querySelectorAll('[data-zone]').forEach((choice) => choice.classList.remove('selected'));
+  document.querySelectorAll('[data-zone]').forEach((choice) => {
+    choice.classList.remove('selected');
+    choice.setAttribute('aria-pressed', 'false');
+  });
 });
 propertyForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -205,16 +271,12 @@ propertyForm.addEventListener('submit', (event) => {
     budget: answers.get('budget')?.toString().trim() || '',
     timing: selected('timing'),
   };
-  const summary = Object.entries({
-    Nombre: lead.name,
-    WhatsApp: lead.phone,
-    Correo: lead.email,
-    Propiedad: lead.propertyType,
-    Objetivo: lead.goal,
-    Zona: lead.zone,
-    Presupuesto: lead.budget,
-    Plazo: lead.timing,
-  }).map(([label, value]) => `${label}: ${value || 'Sin especificar'}`).join('\n');
+  const labels = currentLanguage === 'es'
+    ? ['Nombre', 'WhatsApp', 'Correo', 'Propiedad', 'Objetivo', 'Zona', 'Presupuesto', 'Plazo']
+    : ['Name', 'WhatsApp', 'Email', 'Property', 'Goal', 'Area', 'Budget', 'Timing'];
+  const summary = [lead.name, lead.phone, lead.email, lead.propertyType, lead.goal, lead.zone, lead.budget, lead.timing]
+    .map((value, index) => `${labels[index]}: ${value || (currentLanguage === 'es' ? 'Sin especificar' : 'Not specified')}`)
+    .join('\n');
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(summary)}`;
   formWhatsappFallback.href = whatsappUrl;
 
@@ -226,8 +288,12 @@ propertyForm.addEventListener('submit', (event) => {
     formWhatsappFallback.hidden = false;
   }
 
-  formStatus.dataset.es = 'WhatsApp se abrió con tu solicitud preparada. Revisa el mensaje y pulsa Enviar para compartirlo con DORVAL.';
-  formStatus.dataset.en = 'WhatsApp opened with your request ready. Review the message and press Send to share it with DORVAL.';
+  formStatus.dataset.es = whatsappWindow
+    ? 'WhatsApp se abrió con tu solicitud preparada. Revisa el mensaje y pulsa Enviar para compartirlo con DORVAL.'
+    : 'No se pudo abrir WhatsApp automáticamente. Usa el enlace para abrir tu solicitud y pulsa Enviar.';
+  formStatus.dataset.en = whatsappWindow
+    ? 'WhatsApp opened with your request ready. Review the message and press Send to share it with DORVAL.'
+    : 'WhatsApp could not open automatically. Use the link to open your request and press Send.';
   submitButton.disabled = false;
   submitButton.querySelector('span').textContent = currentLanguage === 'es' ? 'Enviar por WhatsApp' : 'Send via WhatsApp';
   setLanguage(currentLanguage);

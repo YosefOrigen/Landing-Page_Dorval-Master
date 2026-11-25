@@ -10,17 +10,18 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#contenido" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
   <header class="site-header">
     <a class="brand" href="#inicio" aria-label="Dorval, inicio"><img class="brand-logo" src="logo-dorval-azul.png" alt="DORVAL MASTER SERVICES GROUP"></a>
     <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="nav" aria-label="Navegación principal">
       <a href="#inicio" data-es="Inicio" data-en="Home">Inicio</a><a href="#nosotros" data-es="Quiénes somos" data-en="About us">Quiénes somos</a>
-      <a href="#servicios" data-es="Servicios" data-en="Services">Servicios</a><a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
+      <a href="#servicios" data-es="Servicios" data-en="Services">Servicios</a><a href="#proyectos" data-es="Oportunidades" data-en="Opportunities">Oportunidades</a><a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
       <button class="language" type="button" aria-label="Cambiar idioma"><span>ES</span><i></i><span>EN</span></button>
     </nav>
   </header>
 
-  <main>
+  <main id="contenido">
     <section class="hero" id="inicio">
       <div class="hero-photo photo-placeholder" aria-hidden="true"></div>
       <div class="hero-shade"></div>
@@ -102,7 +103,7 @@
     <section class="about" id="nosotros">
       <div class="about-copy">
         <p class="eyebrow" data-reveal data-es="CONÓCENOS" data-en="GET TO KNOW US">CONÓCENOS</p>
-        <h1 data-reveal data-es="Una organización integral <span>para cada etapa</span>" data-en="An integrated partner <span>for every stage</span>">Una organización integral <span>para cada etapa</span></h1>
+        <h2 data-reveal data-es="Una organización integral <span>para cada etapa</span>" data-en="An integrated partner <span>for every stage</span>">Una organización integral <span>para cada etapa</span></h2>
         <p class="about-lead" data-reveal data-es="Integramos experiencia inmobiliaria y empresarial para acompañar cada activo desde su desarrollo hasta su operación." data-en="We bring real estate and business expertise together to support each asset from development through operation.">Integramos experiencia inmobiliaria y empresarial para acompañar cada activo desde su desarrollo hasta su operación.</p>
         <div class="about-capabilities" data-reveal>
           <article class="capability-item"><span class="capability-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6M8 10h.01M16 10h.01"/></svg></span><div><p class="capability-label" data-es="CICLO INMOBILIARIO" data-en="REAL ESTATE LIFECYCLE">CICLO INMOBILIARIO</p><p class="capability-text" data-es="Desarrollo · construcción · administración · comercialización" data-en="Development · construction · management · marketing">Desarrollo · construcción · administración · comercialización</p></div></article>
@@ -126,12 +127,12 @@
         <div class="area-info">
           <h2 data-es="Gestión y consultoría empresarial" data-en="Business management and consulting">Gestión y consultoría empresarial</h2>
           <p data-es="Asesoría técnica y gestión operativa para fortalecer empresas, proyectos y activos." data-en="Technical advisory and operational management to strengthen businesses, projects and assets.">Asesoría técnica y gestión operativa para fortalecer empresas, proyectos y activos.</p>
-          <ul class="service-list">
+          <ul class="service-list" id="business-services">
             <li><strong data-es="Asesoría contable, fiscal y financiera" data-en="Accounting, tax and financial advisory">Asesoría contable, fiscal y financiera</strong><span data-es="Acompañamiento técnico para la salud económica de empresas y proyectos." data-en="Technical support for the financial health of businesses and projects.">Acompañamiento técnico para la salud económica de empresas y proyectos.</span></li>
             <li><strong data-es="Administración de propiedades y proyectos" data-en="Property and project administration">Administración de propiedades y proyectos</strong><span data-es="Gestión operativa y mantenimiento de activos." data-en="Operational management and asset maintenance.">Gestión operativa y mantenimiento de activos.</span></li>
             <li><strong data-es="Gestión humana y organizacional" data-en="Human resources and organizational management">Gestión humana y organizacional</strong><span data-es="Reclutamiento, capacitación y estructuras laborales eficientes." data-en="Recruitment, training and efficient workforce structures.">Reclutamiento, capacitación y estructuras laborales eficientes.</span></li>
           </ul>
-          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" hidden>Leer más</button>
+          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" aria-controls="business-services" hidden>Leer más</button>
           <a href="#contacto" class="text-link" data-es="Consultar servicios" data-en="Ask about services">Consultar servicios <span>↗</span></a>
         </div>
       </article>
@@ -140,11 +141,11 @@
         <div class="area-info">
           <h2 data-es="Desarrollo y bienes raíces" data-en="Real estate development">Desarrollo y bienes raíces</h2>
           <p data-es="Acompañamos el ciclo de vida del activo inmobiliario, desde la planificación hasta su comercialización." data-en="We support the real estate asset lifecycle, from planning through marketing.">Acompañamos el ciclo de vida del activo inmobiliario, desde la planificación hasta su comercialización.</p>
-          <ul class="service-list">
+          <ul class="service-list" id="real-estate-services">
             <li><strong data-es="Desarrollo inmobiliario" data-en="Real estate development">Desarrollo inmobiliario</strong><span data-es="Concepción, planificación y construcción de proyectos." data-en="Project concept, planning and construction.">Concepción, planificación y construcción de proyectos.</span></li>
             <li><strong data-es="Venta y comercialización" data-en="Sales and marketing">Venta y comercialización</strong><span data-es="Intermediación profesional para la compra y venta de bienes raíces." data-en="Professional brokerage for real estate purchases and sales.">Intermediación profesional para la compra y venta de bienes raíces.</span></li>
           </ul>
-          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" hidden>Leer más</button>
+          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" aria-controls="real-estate-services" hidden>Leer más</button>
           <a href="#proyectos" class="text-link" data-es="Ver oportunidades" data-en="View opportunities">Ver oportunidades <span>↗</span></a>
         </div>
       </article>
@@ -196,16 +197,16 @@
       <button class="dialog-close" type="button" aria-label="Cerrar formulario">×</button>
       <div class="form-progress"><span></span></div>
       <section class="form-step" data-step="0">
-        <p class="form-kicker" data-es="PREGUNTA 1 DE 5" data-en="QUESTION 1 OF 5">PREGUNTA 1 DE 5</p><h2 id="form-title" data-es="¿Qué estás buscando?" data-en="What are you looking for?">¿Qué estás buscando?</h2>
+        <p class="form-kicker" data-es="PREGUNTA 1 DE 5" data-en="QUESTION 1 OF 5">PREGUNTA 1 DE 5</p><h2 id="form-title" tabindex="-1" data-es="¿Qué estás buscando?" data-en="What are you looking for?">¿Qué estás buscando?</h2>
         <div class="choice-list">
           <label><input type="radio" name="property" value="Apartamento"><span data-es="Apartamento" data-en="Apartment">Apartamento</span></label><label><input type="radio" name="property" value="Casa"><span data-es="Casa" data-en="House">Casa</span></label><label><input type="radio" name="property" value="Villa"><span>Villa</span></label><label><input type="radio" name="property" value="Terreno"><span data-es="Terreno" data-en="Land">Terreno</span></label><label><input type="radio" name="property" value="Nave"><span data-es="Nave" data-en="Warehouse">Nave</span></label><label><input type="radio" name="property" value="Local"><span data-es="Local comercial" data-en="Commercial space">Local</span></label><label><input type="radio" name="property" value="Finca"><span data-es="Finca" data-en="Farm">Finca</span></label><label><input type="radio" name="property" value="Proyecto de inversión"><span data-es="Proyecto de inversión" data-en="Investment project">Proyecto de inversión</span></label><label><input type="radio" name="property" value="Otro"><span data-es="Otro" data-en="Other">Otro</span></label>
         </div>
       </section>
-      <section class="form-step" data-step="1" hidden><p class="form-kicker" data-es="PREGUNTA 2 DE 5" data-en="QUESTION 2 OF 5">PREGUNTA 2 DE 5</p><h2 data-es="¿Cuál es tu objetivo?" data-en="What is your goal?">¿Cuál es tu objetivo?</h2><div class="choice-list">
+      <section class="form-step" data-step="1" hidden><p class="form-kicker" data-es="PREGUNTA 2 DE 5" data-en="QUESTION 2 OF 5">PREGUNTA 2 DE 5</p><h2 tabindex="-1" data-es="¿Cuál es tu objetivo?" data-en="What is your goal?">¿Cuál es tu objetivo?</h2><div class="choice-list">
         <label><input type="radio" name="goal" value="Comprar para vivir"><span data-es="Comprar para vivir" data-en="Buy a home">Comprar para vivir</span></label><label><input type="radio" name="goal" value="Comprar para invertir"><span data-es="Comprar para invertir" data-en="Buy as an investment">Comprar para invertir</span></label><label><input type="radio" name="goal" value="Alquilar"><span data-es="Alquilar" data-en="Rent">Alquilar</span></label><label><input type="radio" name="goal" value="Desarrollar un proyecto"><span data-es="Desarrollar un proyecto" data-en="Develop a project">Desarrollar un proyecto</span></label><label><input type="radio" name="goal" value="Comprar para Airbnb"><span data-es="Comprar para Airbnb" data-en="Buy for Airbnb">Comprar para Airbnb</span></label><label><input type="radio" name="goal" value="Comprar para reventa"><span data-es="Comprar para reventa" data-en="Buy to resell">Comprar para reventa</span></label><label><input type="radio" name="goal" value="Otro"><span data-es="Otro" data-en="Other">Otro</span></label>
       </div></section>
-      <section class="form-step" data-step="2" hidden><p class="form-kicker" data-es="PREGUNTA 3 DE 5" data-en="QUESTION 3 OF 5">PREGUNTA 3 DE 5</p><h2 data-es="¿En qué zona estás buscando?" data-en="Where are you looking?">¿En qué zona estás buscando?</h2><label class="visually-hidden" for="property-zone" data-es="Zona, sector o ciudad" data-en="Area, neighborhood or city">Zona, sector o ciudad</label><input class="form-input" id="property-zone" name="zone" placeholder="Escribe una zona, sector o ciudad" data-placeholder-es="Escribe una zona, sector o ciudad" data-placeholder-en="Enter an area, neighborhood or city"><div class="quick-choices"><button type="button" data-zone="Punta Cana">Punta Cana</button><button type="button" data-zone="No lo sé" data-es="Aún no lo sé" data-en="I’m not sure yet">Aún no lo sé</button></div></section>
-      <section class="form-step" data-step="3" hidden><p class="form-kicker" data-es="PREGUNTA 4 DE 5" data-en="QUESTION 4 OF 5">PREGUNTA 4 DE 5</p><h2 data-es="¿Cuál es tu presupuesto aproximado?" data-en="What is your approximate budget?">¿Cuál es tu presupuesto aproximado?</h2><p class="form-hint" data-es="Un aproximado es suficiente; nos ayuda a mostrarte opciones realistas." data-en="An estimate is enough; it helps us show you realistic options.">Un aproximado es suficiente; nos ayuda a mostrarte opciones realistas.</p><label class="visually-hidden" for="property-budget" data-es="Presupuesto aproximado" data-en="Approximate budget">Presupuesto aproximado</label><input class="form-input" id="property-budget" name="budget" placeholder="Ej.: US$ 150,000" data-placeholder-es="Ej.: US$ 150,000" data-placeholder-en="E.g. US$150,000"></section>
+      <section class="form-step" data-step="2" hidden><p class="form-kicker" data-es="PREGUNTA 3 DE 5" data-en="QUESTION 3 OF 5">PREGUNTA 3 DE 5</p><h2 tabindex="-1" data-es="¿En qué zona estás buscando?" data-en="Where are you looking?">¿En qué zona estás buscando?</h2><label class="visually-hidden" for="property-zone" data-es="Zona, sector o ciudad" data-en="Area, neighborhood or city">Zona, sector o ciudad</label><input class="form-input" id="property-zone" name="zone" placeholder="Escribe una zona, sector o ciudad" data-placeholder-es="Escribe una zona, sector o ciudad" data-placeholder-en="Enter an area, neighborhood or city"><div class="quick-choices"><button type="button" data-zone="Punta Cana">Punta Cana</button><button type="button" data-zone="No lo sé" data-es="Aún no lo sé" data-en="I’m not sure yet">Aún no lo sé</button></div></section>
+      <section class="form-step" data-step="3" hidden><p class="form-kicker" data-es="PREGUNTA 4 DE 5" data-en="QUESTION 4 OF 5">PREGUNTA 4 DE 5</p><h2 tabindex="-1" data-es="¿Cuál es tu presupuesto aproximado?" data-en="What is your approximate budget?">¿Cuál es tu presupuesto aproximado?</h2><p class="form-hint" data-es="Un aproximado es suficiente; nos ayuda a mostrarte opciones realistas." data-en="An estimate is enough; it helps us show you realistic options.">Un aproximado es suficiente; it helps us show you realistic options.</p><label class="visually-hidden" for="property-budget" data-es="Presupuesto aproximado" data-en="Approximate budget">Presupuesto aproximado</label><input class="form-input" id="property-budget" name="budget" placeholder="Ej.: US$ 150,000" data-placeholder-es="Ej.: US$ 150,000" data-placeholder-en="E.g. US$150,000"></section>
       <section class="form-step" data-step="4" hidden><p class="form-kicker" data-es="PREGUNTA 5 DE 5" data-en="QUESTION 5 OF 5">PREGUNTA 5 DE 5</p><h2 data-es="¿Cuándo te gustaría realizar la operación?" data-en="When would you like to make your move?">¿Cuándo te gustaría realizar la operación?</h2><div class="choice-list">
         <label><input type="radio" name="timing" value="Lo antes posible"><span data-es="Lo antes posible" data-en="As soon as possible">Lo antes posible</span></label><label><input type="radio" name="timing" value="Durante los próximos 30 días"><span data-es="Durante los próximos 30 días" data-en="Within the next 30 days">Durante los próximos 30 días</span></label><label><input type="radio" name="timing" value="En 1-3 meses"><span data-es="En 1-3 meses" data-en="In 1–3 months">En 1-3 meses</span></label><label><input type="radio" name="timing" value="En 3-6 meses"><span data-es="En 3-6 meses" data-en="In 3–6 months">En 3-6 meses</span></label><label><input type="radio" name="timing" value="Estoy explorando opciones"><span data-es="Estoy explorando opciones" data-en="I’m exploring options">Estoy explorando opciones</span></label>
       </div></section>
