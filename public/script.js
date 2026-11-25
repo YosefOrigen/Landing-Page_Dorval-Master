@@ -72,6 +72,8 @@ function setLanguage(language) {
   document.querySelectorAll('[data-placeholder-es][data-placeholder-en]').forEach((element) => {
     element.placeholder = element.dataset[`placeholder${language[0].toUpperCase()}${language.slice(1)}`];
   });
+  const aboutVisual = document.querySelector('.about-visual');
+  if (aboutVisual) aboutVisual.setAttribute('aria-label', aboutVisual.dataset[language === 'es' ? 'labelEs' : 'labelEn']);
   const closeButton = document.querySelector('.dialog-close');
   if (closeButton) closeButton.setAttribute('aria-label', language === 'es' ? 'Cerrar formulario' : 'Close form');
   languageButton.querySelectorAll('span').forEach((span) => {
@@ -232,3 +234,25 @@ propertyForm.addEventListener('submit', (event) => {
   activeStep = 6;
   renderFormStep();
 });
+
+// Motion that respects the visitor’s reduced-motion preference.
+const revealNodes = document.querySelectorAll('[data-reveal]');
+if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.body.classList.add('motion-ready');
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+  revealNodes.forEach((node) => revealObserver.observe(node));
+} else {
+  revealNodes.forEach((node) => node.classList.add('is-visible'));
+}
+
+// Add a light sticky-header response while scrolling.
+const siteHeader = document.querySelector('.site-header');
+const syncHeaderDepth = () => document.body.classList.toggle('has-scrolled', window.scrollY > 12);
+window.addEventListener('scroll', syncHeaderDepth, { passive: true });
+syncHeaderDepth();

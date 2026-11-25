@@ -81,8 +81,9 @@ body{font-family:'Poppins',Arial,sans-serif;font-size:16px;line-height:1.6}.nav{
 .property-details .property-features{padding-top:7px}
 
 .photo-placeholder:after{content:none}
-.hero-photo{background-image:linear-gradient(90deg,#f1f8ff 0%,#f1f8ffef 32%,#f1f8ff8c 53%,#f1f8ff00 78%),linear-gradient(135deg,#ddecfc,#9fc9ed 55%,#e6f2ff)}
-@media(max-width:650px){.hero-photo{background-image:linear-gradient(180deg,#f3f8ffed 0%,#f3f8ff9c 65%,#f3f8ff2e 100%),linear-gradient(135deg,#ddecfc,#9fc9ed 55%,#e6f2ff)}}
+.hero-photo{background-image:url('images/hero-dorval.jpg');background-position:center top;background-size:cover}
+.hero-shade{background:linear-gradient(90deg,#f3f8fffa 0%,#f3f8ffeb 30%,#f3f8ff9c 49%,#f3f8ff24 70%,#f3f8ff00 100%)}
+@media(max-width:650px){.hero-photo{background-color:#cce5ff;background-image:url('images/hero-dorval-mobile.jpg');background-position:center center;background-size:cover;background-repeat:no-repeat}.hero-shade{background:linear-gradient(180deg,#f3f8fffa 0%,#f3f8fff0 38%,#f3f8ffd9 54%,#f3f8ff8c 70%,#f3f8ff2e 88%,#f3f8ff00 100%)}}
 
 /* Company profile: mission, vision, values and detailed service summaries. */
 .area-card{align-items:stretch}
@@ -113,3 +114,110 @@ body{font-family:'Poppins',Arial,sans-serif;font-size:16px;line-height:1.6}.nav{
 .value-card p{font-size:12px;line-height:1.55;color:#526b87;margin:0}
 @media(max-width:1000px){.values-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.area-info{padding:22px 18px}}
 @media(max-width:650px){.purpose{padding-top:50px;padding-bottom:54px}.purpose-grid{grid-template-columns:1fr;gap:12px}.purpose-card{padding:23px}.values-heading{align-items:flex-start;flex-direction:column;gap:8px;margin:34px 0 16px}.values-heading h3{font-size:27px}.values-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.value-card{padding:16px 13px}.value-card:last-child{grid-column:1/-1}.service-list{gap:10px!important}.service-list strong{font-size:11px}.service-list li span{font-size:10px}.area-info{padding:18px 14px}.area-info h2{font-size:19px}}
+
+.service-photo{background-color:#f4f8fd;background-image:linear-gradient(135deg,#06285822 0%,#06285800 48%),url('images/service-gestion-empresarial.jpg');background-position:center,center;background-size:cover,auto 100%;background-repeat:no-repeat}
+@media(min-width:651px){.areas .area-card:first-child{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important;grid-template-rows:minmax(360px,auto)!important}.areas .area-card:first-child .service-photo{width:100%;height:100%;min-height:360px;aspect-ratio:4/3;background-size:cover,contain}}
+@media(max-width:650px){.area-card:first-child{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto}.area-card:first-child .service-photo{height:auto;aspect-ratio:1/1;min-height:0;background-size:cover,contain}}
+
+/* Responsive layout for the featured property section. */
+.featured-property,.property-gallery,.property-info{min-width:0}
+@media(max-width:900px){.featured-property{grid-template-columns:minmax(0,1fr);width:100%}.property-gallery{min-height:0}.property-main-photo{height:clamp(270px,42vw,370px)}}
+@media(max-width:650px){.section-heading{width:100%;padding-inline:4px}.section-heading h2{max-width:100%;font-size:clamp(27px,7.8vw,36px);line-height:1.15;letter-spacing:-.8px;text-wrap:balance}.section-heading>p:last-child{max-width:36ch;margin:10px auto 24px;font-size:14px;line-height:1.55}.featured-property{width:100%;margin:24px auto;border-radius:10px}.property-main-photo{height:clamp(210px,62vw,270px)}.property-info{padding:20px 16px}.property-info h3{font-size:clamp(25px,8vw,32px);overflow-wrap:anywhere}.property-location,.property-intro{overflow-wrap:anywhere}.property-price{flex-wrap:wrap;row-gap:2px}.property-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.property-stats>div{min-width:0;padding:10px}.property-stats strong{font-size:14px;overflow-wrap:anywhere}.property-stats span{font-size:10px}.property-agent p{min-width:0;width:100%}.property-agent p span{max-width:none;overflow-wrap:anywhere}.property-agent .button{width:100%;min-height:46px;white-space:normal;text-align:center}.projects>.button-outline{display:flex;width:100%;max-width:420px;margin:0 auto;white-space:normal;text-align:center;line-height:1.4}}
+
+
+/* Subtle motion system for a more polished browsing experience. */
+html{scroll-behavior:smooth}
+body.motion-ready [data-reveal]{opacity:0;transform:translate3d(0,24px,0);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+body.motion-ready [data-reveal].is-visible{opacity:1;transform:translate3d(0,0,0)}
+.areas .area-card:nth-child(2){transition-delay:.08s}
+.purpose-grid .purpose-card:nth-child(2){transition-delay:.08s}
+.value-card,.area-card,.purpose-card,.featured-property{transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.area-card:hover,.purpose-card:hover,.featured-property:hover{transform:translateY(-4px);box-shadow:0 24px 60px #092b5018}
+.value-card:hover{transform:translateY(-3px);border-color:#b8d7f3;box-shadow:0 16px 35px #092b5014}
+.button{transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
+.button:hover{box-shadow:0 10px 24px #06285822}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}body.motion-ready [data-reveal]{opacity:1;transform:none}}
+
+/* More visual rhythm for the company introduction section. */
+.about{grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);min-height:520px;background:#f4f8fd}
+.about-copy{padding-top:68px;padding-bottom:68px}
+.about-copy .eyebrow{display:inline-flex;align-items:center;gap:9px;margin-bottom:17px}
+.about-copy .eyebrow:before{content:'';width:24px;height:2px;border-radius:2px;background:var(--blue)}
+.about-copy h1{max-width:560px;font-size:clamp(36px,4.15vw,56px);line-height:1.08;letter-spacing:-1.7px;text-wrap:balance}
+.about-copy h1 span{display:block;color:var(--blue)}
+.about-copy .about-lead{max-width:480px;margin:0 0 21px;color:#47627e;font-size:15px;line-height:1.7}
+.about-capabilities{display:grid;gap:9px;max-width:520px;margin:0 0 24px}
+.capability-item{display:grid;grid-template-columns:38px minmax(0,1fr);align-items:center;gap:12px;padding:11px 13px;border:1px solid #dce9f6;border-radius:12px;background:#fff;box-shadow:0 8px 24px #082d5508}
+.capability-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#e7f2ff;color:var(--blue)}
+.capability-icon-light{background:#edf4f9;color:var(--navy)}
+.capability-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.capability-label{margin:0 0 3px;color:#1471ca;font-size:9px;font-weight:700;letter-spacing:1.5px}
+.capability-text{margin:0;color:#526b85;font-size:11px;line-height:1.5}
+.about-visual{position:relative;display:grid;place-items:center;min-height:520px;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 50% 52%,#fff 0%,#edf6ff 34%,#d6eaff 75%,#c3def7 100%)}
+.about-visual:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(132deg,transparent 0 47%,#0877df 47.2% 48.3%,transparent 48.5%),linear-gradient(132deg,transparent 0 55%,#fff9 55.2% 56.2%,transparent 56.4%);opacity:.78}
+.visual-orbit{position:absolute;left:50%;top:50%;aspect-ratio:1;border:1px solid #83b9eb6b;border-radius:50%;transform:translate(-50%,-50%)}
+.visual-orbit-outer{width:min(70%,470px)}.visual-orbit-inner{width:min(51%,340px);border-style:dashed;border-color:#0b72cd38;animation:orbit-turn 48s linear infinite}
+.visual-center{position:relative;z-index:2;display:grid;place-items:center;width:210px;height:210px;border:1px solid #fff;border-radius:50%;background:linear-gradient(145deg,#ffffffeb,#f3f9ffdb);box-shadow:0 24px 70px #10487920,inset 0 0 0 9px #fff8;text-align:center}
+.visual-center>span{margin-top:22px;color:#507394;font-size:9px;font-weight:700;letter-spacing:2px}
+.visual-center strong{margin-top:-10px;color:var(--navy);font:800 73px/.95 Poppins,sans-serif;letter-spacing:-6px}
+.visual-center strong span{color:var(--blue);font-size:.62em;vertical-align:top;letter-spacing:-1px}
+.visual-center small{margin-top:-17px;color:#6d86a0;font-size:10px;letter-spacing:.2px}
+.visual-tag{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 15px 10px 10px;border:1px solid #fff;border-radius:999px;background:#ffffffed;box-shadow:0 12px 34px #0a3b6718;color:var(--navy);white-space:nowrap}
+.visual-tag>span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#e9f4ff;color:#0877df;font-size:9px;font-weight:700}
+.visual-tag strong{font-size:11px;font-weight:700}
+.visual-tag-one{top:19%;left:13%}.visual-tag-two{right:8%;top:47%}.visual-tag-three{bottom:17%;left:17%}
+.visual-spark{position:absolute;color:#1479d7;font-size:25px}.visual-spark-one{right:17%;top:24%}.visual-spark-two{left:16%;bottom:33%;font-size:32px;color:#80b5e8}
+@keyframes orbit-turn{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media(max-width:900px){.about{grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:460px}.about-copy{padding:48px 5vw}.about-visual{min-height:460px}.about-copy h1{font-size:clamp(34px,4.6vw,46px)}.visual-tag-one{left:7%}.visual-tag-two{right:4%}.visual-tag-three{left:10%}}
+@media(max-width:650px){.about{grid-template-columns:1fr}.about-copy{padding:48px 7vw 35px}.about-copy h1{font-size:clamp(34px,9vw,43px);margin-bottom:14px}.about-copy .about-lead{font-size:14px;line-height:1.65}.about-capabilities{gap:8px;margin-bottom:20px}.capability-item{padding:10px}.capability-text{font-size:10px}.about-visual{min-height:350px}.visual-center{width:170px;height:170px}.visual-center strong{font-size:62px}.visual-orbit-outer{width:min(78%,300px)}.visual-orbit-inner{width:min(58%,225px)}.visual-tag{gap:7px;padding:7px 11px 7px 7px}.visual-tag>span{width:24px;height:24px;font-size:8px}.visual-tag strong{font-size:9px}.visual-tag-one{top:13%;left:5%}.visual-tag-two{right:4%;top:46%}.visual-tag-three{bottom:12%;left:6%}.visual-spark-one{right:13%;top:20%}.visual-spark-two{left:11%;bottom:28%}}
+@media(prefers-reduced-motion:reduce){.visual-orbit-inner{animation:none}}
+
+/* Scroll-in sequence for the company introduction. */
+.about-copy>.eyebrow[data-reveal]{transition-delay:.04s}
+.about-copy>h1[data-reveal]{transition-delay:.11s}
+.about-copy>.about-lead[data-reveal]{transition-delay:.18s}
+.about-copy>.about-capabilities[data-reveal]{transition-delay:.25s}
+.about-copy>.button[data-reveal]{transition-delay:.32s}
+.about-visual[data-reveal]{transition-delay:.13s}
+@media(prefers-reduced-motion:reduce){.about-copy>[data-reveal],.about-visual[data-reveal]{transition-delay:0s}}
+
+/* Keep the capability labels clear of the 360-degree centerpiece on compact screens. */
+.visual-tag-one{top:9%;left:7%}
+.visual-tag-two{top:9%;right:7%}
+.visual-tag-three{bottom:9%;left:7%}
+@media(max-width:900px){.visual-tag-one{left:5%;top:8%}.visual-tag-two{right:5%;top:8%}.visual-tag-three{left:5%;bottom:8%}}
+@media(max-width:650px){.visual-tag-one{left:5%;top:8%}.visual-tag-two{right:5%;top:8%}.visual-tag-three{left:5%;bottom:8%}}
+
+/* Keep floating labels clear of the sticky header as the visual enters the viewport. */
+.visual-tag-one,.visual-tag-two{top:15%}
+@media(max-width:900px){.visual-tag-one,.visual-tag-two{top:15%}}
+@media(max-width:650px){.visual-tag-one,.visual-tag-two{top:14%}}
+
+/* Site-wide motion: editorial reveals, calm image movement and responsive feedback. */
+.site-header{transition:background-color .25s ease,box-shadow .25s ease,backdrop-filter .25s ease}
+body.has-scrolled .site-header{background:#ffffffed;box-shadow:0 8px 28px #092b5018;backdrop-filter:blur(14px)}
+.nav>a{position:relative}
+.nav>a:after{content:'';position:absolute;left:0;right:100%;bottom:4px;height:2px;border-radius:2px;background:var(--blue);transition:right .24s ease}
+.nav>a:hover:after,.nav>a:focus-visible:after{right:0}
+.hero-photo{transform-origin:center 42%;animation:hero-breathe 22s ease-in-out infinite alternate}
+@keyframes hero-breathe{from{transform:scale(1)}to{transform:scale(1.035) translate3d(-.35%,.25%,0)}}
+body.motion-ready [data-reveal]{will-change:opacity,transform}
+.section-heading[data-reveal]{transition-delay:.04s}
+.featured-property[data-reveal]{transition-delay:.08s}
+.purpose-grid .purpose-card:nth-child(2),.values-grid .value-card:nth-child(2){transition-delay:.08s}
+.values-grid .value-card:nth-child(3){transition-delay:.14s}.values-grid .value-card:nth-child(4){transition-delay:.20s}.values-grid .value-card:nth-child(5){transition-delay:.26s}
+.property-gallery{transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.property-main-photo img{transition:transform .65s cubic-bezier(.2,.7,.2,1),filter .35s ease}
+.property-main-photo:hover img{transform:scale(1.025);filter:saturate(1.04)}
+.property-thumb{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.property-thumb:hover{transform:translateY(-3px);border-color:#8cc5f4;box-shadow:0 8px 18px #092b5020}
+.area-card .service-photo,.about-visual{transition:background-position .65s ease,filter .35s ease}
+.area-card:hover .service-photo{filter:saturate(1.08)}
+.button:active,.form-controls button:active{transform:translateY(1px) scale(.985)}
+.property-dialog[open]{animation:dialog-enter .32s cubic-bezier(.2,.75,.25,1) both}
+.property-dialog::backdrop{animation:backdrop-enter .25s ease both}
+.form-step:not([hidden]){animation:step-enter .3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes dialog-enter{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes backdrop-enter{from{background:#04172b00;backdrop-filter:blur(0)}to{background:#04172bd9;backdrop-filter:blur(5px)}}
+@keyframes step-enter{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.hero-photo{animation:none}body.motion-ready [data-reveal]{will-change:auto}.property-main-photo img,.property-thumb,.nav>a:after{transition:none}}
