@@ -16,7 +16,7 @@
     <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="nav" aria-label="Navegación principal">
       <a href="#inicio" data-es="Inicio" data-en="Home">Inicio</a><a href="#nosotros" data-es="Quiénes somos" data-en="About us">Quiénes somos</a>
-      <a href="#servicios" data-es="Servicios" data-en="Services">Servicios</a><a href="#proyectos" data-es="Oportunidades" data-en="Opportunities">Oportunidades</a><a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
+      <a href="#proyectos" data-es="Oportunidades" data-en="Opportunities">Oportunidades</a><a href="#servicios" data-es="Servicios" data-en="Services">Servicios</a><a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
       <button class="language" type="button" aria-label="Cambiar idioma"><span>ES</span><i></i><span>EN</span></button>
     </nav>
   </header>
@@ -100,6 +100,43 @@
       <a class="button button-outline" href="#contacto" data-es="Conversemos sobre tu búsqueda" data-en="Let’s talk about your search">Conversemos sobre tu búsqueda <span>→</span></a>
     </section>
 
+    <section class="areas section-wrap" id="servicios" aria-labelledby="services-title" data-reveal>
+      <header class="services-heading" data-reveal>
+        <p class="eyebrow" data-es="LO QUE HACEMOS" data-en="WHAT WE DO">LO QUE HACEMOS</p>
+        <h2 id="services-title" data-es="Soluciones para cada etapa" data-en="Solutions for every stage">Soluciones para cada etapa</h2>
+        <p data-es="Experiencia y acompañamiento para impulsar empresas, proyectos y activos inmobiliarios." data-en="Expertise and support to move businesses, projects and real estate assets forward.">Experiencia y acompañamiento para impulsar empresas, proyectos y activos inmobiliarios.</p>
+      </header>
+      <article class="area-card" data-reveal>
+        <div class="area-photo service-photo photo-placeholder" aria-hidden="true"></div>
+        <div class="area-info">
+          <p class="eyebrow" data-es="ASESORÍA Y GESTIÓN" data-en="ADVISORY AND MANAGEMENT">ASESORÍA Y GESTIÓN</p>
+          <h2 data-es="Gestión y consultoría empresarial" data-en="Business management and consulting">Gestión y consultoría empresarial</h2>
+          <p data-es="Asesoría técnica y gestión operativa para fortalecer empresas, proyectos y activos." data-en="Technical advisory and operational management to strengthen businesses, projects and assets.">Asesoría técnica y gestión operativa para fortalecer empresas, proyectos y activos.</p>
+          <ul class="service-list" id="business-services">
+            <li><strong data-es="Asesoría contable, fiscal y financiera" data-en="Accounting, tax and financial advisory">Asesoría contable, fiscal y financiera</strong><span data-es="Acompañamiento técnico para la salud económica de empresas y proyectos." data-en="Technical support for the financial health of businesses and projects.">Acompañamiento técnico para la salud económica de empresas y proyectos.</span></li>
+            <li><strong data-es="Administración de propiedades y proyectos" data-en="Property and project administration">Administración de propiedades y proyectos</strong><span data-es="Gestión operativa y mantenimiento de activos." data-en="Operational management and asset maintenance.">Gestión operativa y mantenimiento de activos.</span></li>
+            <li><strong data-es="Gestión humana y organizacional" data-en="Human resources and organizational management">Gestión humana y organizacional</strong><span data-es="Reclutamiento, capacitación y estructuras laborales eficientes." data-en="Recruitment, training and efficient workforce structures.">Reclutamiento, capacitación y estructuras laborales eficientes.</span></li>
+          </ul>
+          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" aria-controls="business-services" hidden>Leer más</button>
+          <a href="#contacto" class="text-link" data-es="Consultar servicios" data-en="Ask about services">Consultar servicios <span>↗</span></a>
+        </div>
+      </article>
+      <article class="area-card" id="inmobiliaria" data-reveal>
+        <div class="area-photo property-photo photo-placeholder" aria-hidden="true"></div>
+        <div class="area-info">
+          <p class="eyebrow" data-es="DESARROLLO INMOBILIARIO" data-en="REAL ESTATE DEVELOPMENT">DESARROLLO INMOBILIARIO</p>
+          <h2 data-es="Desarrollo y bienes raíces" data-en="Real estate development">Desarrollo y bienes raíces</h2>
+          <p data-es="Acompañamos el ciclo de vida del activo inmobiliario, desde la planificación hasta su comercialización." data-en="We support the real estate asset lifecycle, from planning through marketing.">Acompañamos el ciclo de vida del activo inmobiliario, desde la planificación hasta su comercialización.</p>
+          <ul class="service-list" id="real-estate-services">
+            <li><strong data-es="Desarrollo inmobiliario" data-en="Real estate development">Desarrollo inmobiliario</strong><span data-es="Concepción, planificación y construcción de proyectos." data-en="Project concept, planning and construction.">Concepción, planificación y construcción de proyectos.</span></li>
+            <li><strong data-es="Venta y comercialización" data-en="Sales and marketing">Venta y comercialización</strong><span data-es="Intermediación profesional para la compra y venta de bienes raíces." data-en="Professional brokerage for real estate purchases and sales.">Intermediación profesional para la compra y venta de bienes raíces.</span></li>
+          </ul>
+          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" aria-controls="real-estate-services" hidden>Leer más</button>
+          <a href="#proyectos" class="text-link" data-es="Ver oportunidades" data-en="View opportunities">Ver oportunidades <span>↗</span></a>
+        </div>
+      </article>
+    </section>
+
     <section class="about" id="nosotros">
       <div class="about-copy">
         <p class="eyebrow" data-reveal data-es="CONÓCENOS" data-en="GET TO KNOW US">CONÓCENOS</p>
@@ -120,38 +157,6 @@
         <span class="visual-spark visual-spark-one" aria-hidden="true">✦</span><span class="visual-spark visual-spark-two" aria-hidden="true">✧</span>
       </div>
     </section>
-
-    <section class="areas section-wrap" id="servicios" data-reveal>
-      <article class="area-card" data-reveal>
-        <div class="area-photo service-photo photo-placeholder" aria-hidden="true"></div>
-        <div class="area-info">
-          <h2 data-es="Gestión y consultoría empresarial" data-en="Business management and consulting">Gestión y consultoría empresarial</h2>
-          <p data-es="Asesoría técnica y gestión operativa para fortalecer empresas, proyectos y activos." data-en="Technical advisory and operational management to strengthen businesses, projects and assets.">Asesoría técnica y gestión operativa para fortalecer empresas, proyectos y activos.</p>
-          <ul class="service-list" id="business-services">
-            <li><strong data-es="Asesoría contable, fiscal y financiera" data-en="Accounting, tax and financial advisory">Asesoría contable, fiscal y financiera</strong><span data-es="Acompañamiento técnico para la salud económica de empresas y proyectos." data-en="Technical support for the financial health of businesses and projects.">Acompañamiento técnico para la salud económica de empresas y proyectos.</span></li>
-            <li><strong data-es="Administración de propiedades y proyectos" data-en="Property and project administration">Administración de propiedades y proyectos</strong><span data-es="Gestión operativa y mantenimiento de activos." data-en="Operational management and asset maintenance.">Gestión operativa y mantenimiento de activos.</span></li>
-            <li><strong data-es="Gestión humana y organizacional" data-en="Human resources and organizational management">Gestión humana y organizacional</strong><span data-es="Reclutamiento, capacitación y estructuras laborales eficientes." data-en="Recruitment, training and efficient workforce structures.">Reclutamiento, capacitación y estructuras laborales eficientes.</span></li>
-          </ul>
-          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" aria-controls="business-services" hidden>Leer más</button>
-          <a href="#contacto" class="text-link" data-es="Consultar servicios" data-en="Ask about services">Consultar servicios <span>↗</span></a>
-        </div>
-      </article>
-      <article class="area-card" id="inmobiliaria" data-reveal>
-        <div class="area-photo property-photo photo-placeholder" aria-hidden="true"></div>
-        <div class="area-info">
-          <h2 data-es="Desarrollo y bienes raíces" data-en="Real estate development">Desarrollo y bienes raíces</h2>
-          <p data-es="Acompañamos el ciclo de vida del activo inmobiliario, desde la planificación hasta su comercialización." data-en="We support the real estate asset lifecycle, from planning through marketing.">Acompañamos el ciclo de vida del activo inmobiliario, desde la planificación hasta su comercialización.</p>
-          <ul class="service-list" id="real-estate-services">
-            <li><strong data-es="Desarrollo inmobiliario" data-en="Real estate development">Desarrollo inmobiliario</strong><span data-es="Concepción, planificación y construcción de proyectos." data-en="Project concept, planning and construction.">Concepción, planificación y construcción de proyectos.</span></li>
-            <li><strong data-es="Venta y comercialización" data-en="Sales and marketing">Venta y comercialización</strong><span data-es="Intermediación profesional para la compra y venta de bienes raíces." data-en="Professional brokerage for real estate purchases and sales.">Intermediación profesional para la compra y venta de bienes raíces.</span></li>
-          </ul>
-          <button class="service-more-toggle" type="button" data-es="Leer más" data-en="Read more" aria-expanded="false" aria-controls="real-estate-services" hidden>Leer más</button>
-          <a href="#proyectos" class="text-link" data-es="Ver oportunidades" data-en="View opportunities">Ver oportunidades <span>↗</span></a>
-        </div>
-      </article>
-    </section>
-
-
 
     <section class="purpose section-wrap" aria-labelledby="purpose-title" data-reveal>
       <div class="purpose-heading"><p class="eyebrow" data-es="PROPÓSITO Y DIRECCIÓN" data-en="PURPOSE AND DIRECTION">PROPÓSITO Y DIRECCIÓN</p><h2 id="purpose-title" data-es="Una visión integral, construida con propósito" data-en="An integrated vision, built with purpose">Una visión integral, construida con propósito</h2></div>
@@ -223,9 +228,9 @@
         <h3 data-es="Explora" data-en="Explore">Explora</h3>
         <a href="#inicio" data-es="Inicio" data-en="Home">Inicio</a>
         <a href="#nosotros" data-es="Quiénes somos" data-en="About us">Quiénes somos</a>
+        <a href="#proyectos" data-es="Oportunidades" data-en="Opportunities">Oportunidades</a>
         <a href="#servicios" data-es="Servicios" data-en="Services">Servicios</a>
         <a href="#inmobiliaria" data-es="Bienes raíces" data-en="Real estate">Bienes raíces</a>
-        <a href="#proyectos" data-es="Oportunidades" data-en="Opportunities">Oportunidades</a>
       </div>
       <div>
         <h3 data-es="Contacto" data-en="Contact">Contacto</h3>

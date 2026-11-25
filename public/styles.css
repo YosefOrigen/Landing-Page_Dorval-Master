@@ -273,3 +273,40 @@ section[id],article[id]{scroll-margin-top:96px}
   .skip-link{transition:none}
   .area-card:hover .service-photo{transform:none}
 }
+
+/* Services layout: spacious image-and-copy panels that adapt to narrow screens. */
+#servicios.areas{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding-top:clamp(48px,7vw,86px);padding-bottom:clamp(52px,7vw,88px)}
+.services-heading{max-width:760px;margin:0 0 6px}
+.services-heading .eyebrow{margin-bottom:8px}
+.services-heading h2{margin:0;color:var(--navy);font:700 clamp(32px,4vw,46px)/1.12 Poppins,sans-serif;letter-spacing:-1.4px;text-wrap:balance}
+.services-heading>p:last-child{max-width:58ch;margin:12px 0 0;color:var(--muted);font-size:15px;line-height:1.65}
+#servicios.areas .area-card{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);min-height:0;border:1px solid #e3edf7;border-radius:18px;background:#fff;box-shadow:0 18px 50px #092b5010}
+#servicios.areas .area-photo{grid-column:1;grid-row:1;width:100%;height:auto;min-height:370px;aspect-ratio:auto;background-position:center;background-size:cover;background-repeat:no-repeat}
+#servicios.areas .service-photo{background-image:linear-gradient(180deg,#06285800 55%,#06285835 100%),url('images/service-gestion-empresarial.jpg')}
+#servicios.areas .property-photo{background-image:linear-gradient(180deg,#06285800 55%,#06285835 100%),url('images/casa-de-la-palma/casa-de-la-palma-00-portada.jpeg')}
+#servicios.areas .area-info{grid-column:2;grid-row:1;justify-content:center;padding:clamp(28px,4.2vw,58px)}
+#servicios.areas .area-info .eyebrow{margin:0 0 12px}
+#servicios.areas .area-info h2{max-width:19ch;font-size:clamp(25px,3vw,36px);line-height:1.15;letter-spacing:-.9px;text-wrap:balance}
+#servicios.areas .area-info>p:not(.eyebrow){max-width:52ch;margin:0;color:#526b85;font-size:14px;line-height:1.7}
+#servicios.areas .area-info .service-list{gap:15px;margin-top:22px}
+#servicios.areas .service-list li{padding-left:17px}
+#servicios.areas .service-list li:before{top:8px;width:7px;height:7px}
+#servicios.areas .service-list strong{font-size:13px}
+#servicios.areas .service-list li span{font-size:12px;line-height:1.6}
+#servicios.areas .area-info .text-link{padding-top:22px}
+#servicios.areas #inmobiliaria{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}
+#servicios.areas #inmobiliaria .area-info{grid-column:1}
+#servicios.areas #inmobiliaria .area-photo{grid-column:2}
+@media(max-width:650px){
+  #servicios.areas{gap:18px;padding-top:48px;padding-bottom:54px}
+  .services-heading{margin-bottom:0}
+  .services-heading h2{font-size:clamp(30px,8vw,38px);letter-spacing:-.8px}
+  .services-heading>p:last-child{font-size:14px}
+  #servicios.areas .area-card,#servicios.areas #inmobiliaria{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;border-radius:15px}
+  #servicios.areas .area-photo,#servicios.areas #inmobiliaria .area-photo{grid-column:1;grid-row:1;min-height:0;height:clamp(205px,58vw,290px);aspect-ratio:16/10}
+  #servicios.areas .area-info,#servicios.areas #inmobiliaria .area-info{grid-column:1;grid-row:2;padding:25px 22px 26px}
+  #servicios.areas .area-info h2{font-size:clamp(23px,6.5vw,29px)}
+  #servicios.areas .area-info .service-list{gap:13px;margin-top:17px}
+  #servicios.areas .service-list strong{font-size:12px}
+  #servicios.areas .service-list li span{font-size:11px}
+}
